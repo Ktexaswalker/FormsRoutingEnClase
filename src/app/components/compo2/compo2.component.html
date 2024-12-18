@@ -1,0 +1,51 @@
+<h1>Registro (Formulario reactive)</h1>
+<!-- (si le das al boton submit)="llamará a la función enviar()" -->
+<form [formGroup] = "contactForm" (submit)="enviar()">
+    <p>Nombre:
+        <input type="text" formControlName="nombre" placeholder="Nombre" placeholder="placeholder" required minlength="2" pattern="[a-zA-Z ]+">
+        <!-- required minlength="2" pattern="[a-zA-Z]" -->
+    </p>
+    <!-- Si el campo es invalido y lo ha tocado -->
+    @if(this.contactForm.get('nombre')?.invalid && this.contactForm.get('nombre')?.touched) {
+        @if(this.contactForm.get('nombre')?.errors?.['required']) {
+            <p class="text-danger">El nombre no puede quedar vacío</p>
+        }
+        @if(this.contactForm.get('nombre')?.errors?.['minlength']) {
+            <p class="text-danger">El nombre no puede tener menos de 2 caracteres</p>
+        }
+        @if(this.contactForm.get('nombre')?.errors?.['pattern']) {
+            <p class="text-danger">El nombre debe contener letras y espacios</p>
+        }
+        @if(this.contactForm.get('nombre')?.errors?.['longMax']) {
+            <p class="text-danger">El nombre no puede exceder de 10 caracteres</p>
+        }
+    }
+    <p>Email:
+        <input type="text" formControlName="email" placeholder="example@dominio.com" required>
+    </p>
+    
+    @if(this.contactForm.get('email')?.invalid && this.contactForm.get('email')?.touched) {
+        @if(this.contactForm.get('email')?.errors?.['required']) {
+            <p class="text-danger">El email no puede quedar vacío</p>
+        }
+        @if(this.contactForm.get('email')?.errors?.['email']) {
+            <p class="text-danger">El email no tiene el formato correcto</p>
+        }
+    }
+    <p>Mensaje:
+        <textarea rows="10" cols="70" required formControlName="mensaje" placeholder="Esto es un mensaje de ejemplo" required maxlength="200">
+        </textarea>
+    </p>
+    @if(this.contactForm.get('mensaje')?.invalid && this.contactForm.get('mensaje')?.touched) {
+        @if(this.contactForm.get('mensaje')?.errors?.['required']) {
+            <p class="text-danger">El mensaje no puede quedar vacío</p>
+        }
+        @if(this.contactForm.get('mensaje')?.errors?.['maxlength']) {
+            <p class="text-danger">El mensaje no puede contener mas de 200 caracteres</p>
+        }
+    }
+    <!-- atributos booleanos [atributo]="valor" En caso de que todo funcione, el boton se activará -->
+    <button class="btn btn-primary" type="submit" [disabled]="contactForm.invalid">Enviar mensaje</button>
+</form>
+
+{{datosForm}}

@@ -1,0 +1,58 @@
+<form #actorForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="nom" id="nom" class="form-control" [(ngModel)]="model.name" #nom="ngModel" required minlength="2">
+        <!-- Validaciones -->
+        @if(nom.invalid && (nom.dirty || nom.touched)) {
+            <div class="alert">
+                @if(nom.hasError('required')) {
+                    <div>El nom és obligatori</div>
+                }
+                @if(nom.hasError('minlength')) {
+                    <div>El nom ha de contenir un minim de 2 caracters</div>
+                }
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <label>Studio</label>
+        <input type="text" name="studio" id="studio" class="form-control" [(ngModel)]="model.studio" #studio="ngModel" required maxlength="20">
+        <!-- Validaciones -->
+        @if(studio.invalid && (studio.dirty || studio.touched)) {
+            <div class="alert">
+                @if(studio.hasError('required')) {
+                    <div>El nom és obligatori</div>
+                }
+                @if(studio.hasError('maxlength')) {
+                    <div>Ha de contenir un maxim de 20 caracters</div>
+                }
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <label>Skill</label>
+        <select class="form-control" name="skill" id="skill" required [(ngModel)]="model.skill">
+            @for(skill of skills; track skill) {
+                <option [value]="skill">{{skill}}</option>
+            }
+        </select>
+    </div>
+    <button type="submit" [disabled]="actorForm.invalid">Submit</button>
+<!-- Este div se verá cuando envie el formulario -->
+<div [hidden]="!submitted">
+    <h2>Has enviado los siguientes valores:</h2>
+    <div class="row">
+        <div>Name</div>
+        <div class="text-primary">{{model.name}}</div>
+    </div>
+    <div class="row">
+        <div>Studio</div>
+        <div class="text-primary">{{model.studio}}</div>
+    </div>
+    <div class="row">
+        <div>Skill</div>
+        <div class="text-primary">{{model.skill}}</div>
+    </div>
+</div>
+
+</form>
